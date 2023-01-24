@@ -1,0 +1,104 @@
+
+" Hotkey help
+" \h - Show this help file
+
+" Completion Hotkey
+" Alt-. - Show completion suggestions, press again to move to next suggestion
+" Alt-, - Show completion suggestions, press again to move to previous suggestion
+" Alt-Space - Undo a suggestion
+
+" Line Manipulation
+
+" \o - Shift line downwards and shift other lines upward
+" \p - Shift line upwards and shift other lines downward
+" \; - Copy line and paste it on the next line
+
+" Terminal Hotkeys
+
+" F12   - Open terminal in right split window
+" Alt-n - Changes the terminal's mode into normal mode
+
+" Tagbar Hotkeys
+
+" F3 - Toggle Tagbar
+
+" NERDTree Hotkeys
+
+" F4 - Toggle NERDTree
+
+" Windows Navigation Hotkeys (T, N and I modes)
+
+" Alt-h  - Move cursor to left window
+" Alt-j  - Move cursor to top window
+" Alt-k  - Move cursor to bottom window
+" Alt-l  - Move cursor to right window
+" Alt-q  - Quit a window without save :quit
+" Alt-w  - Write changes to a file:w
+" Alt-x  - Close all other windows except current
+" Alt-`  - Cycles through all windows clockwise
+
+" Windows Manipulation Hotkeys (T, N, and I modes)
+
+" Alt-H - Move window to far left
+" Alt-J - Move window to far bottom
+" Alt-K - Move window to far top
+" Alt-L - Move window to far right
+" Alt-= - Make all window heights and widths equal
+
+" Tab Navigation
+
+" Alt-r - Move cursor to next tab
+" Alt-e - Move cursor to previous tab
+" \q - Close all tabs
+" \w - Close all other tabs except current
+" \z - Convert all buffers as tabs
+" \x - Convert all buffers as vertical windows
+
+" Buffer Navigation
+
+" \] - Move cursor to the next buffer
+" \[ - Move cursor to the previous buffer
+" \- - Delete a buffer without saving
+
+" Diff view mode
+
+" F7 - Turn diff view mode on
+" F8 - Turn diff view mode off
+
+" Vim Folding Hotkeys
+
+" zf - [F]old create
+" zd - [D]elete a fold at cursor
+" zE - [E]liminate all folds in the window
+" zo - [O]pens a fold at cursor
+" zO - [O]pens all folds
+" zc - [C]loses a fold at cursor
+" zM - Closes all folds 
+" zR - Opens all folds
+" [z - Move to the start of current open fold
+" ]z - Move to the end of current open fold
+" zj - Move to the start of the next fold
+" zk - Move up to the previous fold
+" zfap - Folds a paragrap
+
+" " Other Plugin-local Commands Begin
+
+" Vim-surround
+
+" Hints
+
+" cs   - Change surround
+" ds   - Destroy surround
+" ysiw - Surround in word, use '[' to surround with space and ']' to surround without space
+" yss  - Surround entire line
+" Select block in visual mode then press S) to surround block in ()
+" ys3w - Surround 3 words
+
+
+" Vim-commentary
+
+" Hints
+
+" gcc  - comment out a line, can take a count
+" gc   - comment out a target of a motion
+" gcap - comment out a paragraph
