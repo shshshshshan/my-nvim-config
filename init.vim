@@ -84,7 +84,7 @@ set splitbelow
 
 set notimeout
 
-colorscheme everforest
+colorscheme afterglow
 
 " Custom Editor Preferences End
 
@@ -285,9 +285,10 @@ au BufNewFile *
 " " Python
 au BufNewFile *.py 0r ~/.programmingTemplates/Python/standardPythonTemplate.py | %s/<$fnameHash$$?>/\=expand("%:t:r")/
 
-" " Entering a programming file then going to the main method function when opened
+" " Entering a programming file
+
+" E486 - Error code for searching a pattern that could not be found
 function! CursorToMain()
-	" E486 - Error code for searching a pattern that could not be found
 	try
 		execute '/main('
 		normal n
@@ -298,7 +299,10 @@ function! CursorToMain()
 	endtry
 endfunction
 
-aug CursorToMain
-	au!
-	au BufReadPost *.c,*.cpp,*.java call CursorToMain()
-aug end
+" Welcome Message
+function! CodingWelcomeMessage()
+	echo "You are now coding in " . toupper(expand("%:t:e")) . " programming language!"
+endfunction
+
+au BufEnter *.c,*.cpp,*.java call CursorToMain()
+au BufEnter *.c,*.cpp,*.java,*.py,*.cs,*.html,*.css,*.js call CodingWelcomeMessage()
