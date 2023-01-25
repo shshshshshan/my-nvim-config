@@ -54,6 +54,9 @@ call plug#end()
 
 " Plugin Calls End
 
+
+
+
 " Custom Editor Preferences Begin
 
 syntax on
@@ -97,12 +100,11 @@ aug TermCustom
 	au TermOpen * startinsert | setlocal list
 aug end
 
-" au TermOpen * startinsert
-" au TermOpen * setlocal list
-
 " " Dynamic Line Numbering
-au InsertEnter <buffer> set norelativenumber
-au InsertLeave <buffer> set relativenumber
+aug DynamicLineNumbering
+	au!
+	au InsertEnter <buffer> set norelativenumber | au InsertLeave <buffer> set relativenumber
+aug end
 
 " " Match Pairs
 set mps+=<:>
@@ -258,7 +260,11 @@ nnoremap <Leader>h <Cmd>vert sview ~/.config/nvim/hotkeys.txt<CR>
 " Programming Templates
 
 " " C
-au BufNewFile *.c 0r ~/.programmingTemplates/C/standardTemplate.c
+aug CTemplate
+	au!
+	au BufNewFile *.c 0r ~/.programmingTemplates/C/standardTemplate.c
+	au BufNewFile *.h 0r ~/.programmingTemplates/C/headerFileTemplate.h | %s/<$fnameHash$$?>/\=toupper(substitute(expand("%:t:r"), ' ', '_', 'g'))/
+aug end
 
 " " CPP
 au BufNewFile * 
@@ -269,7 +275,30 @@ au BufNewFile *
 	\ endif
 
 " " Java
-au BufNewFile *.java 0r ~/.programmingTemplates/Java/standardClassTemplate.java | %s/<$fnameHash$$?>/\=expand("%:t:r")/
+au BufNewFile *
+	\ if match(expand('%:t'), '.*Main\.java') == 0 |
+	\	0r ~/.programmingTemplates/Java/standardClassTemplate.java | %s/<$fnameHash$$?>/\=expand("%:t:r")/ |
+	\ elseif match(expand('%:t'), '.*\.java') == 0 |
+	\	0r ~/.programmingTemplates/Java/classTemplate.java | %s/<$fnameHash$$?>/\=expand("%:t:r")/ |
+	\ endif
 
 " " Python
 au BufNewFile *.py 0r ~/.programmingTemplates/Python/standardPythonTemplate.py | %s/<$fnameHash$$?>/\=expand("%:t:r")/
+
+" " Entering a programming file then going to the main method function when opened
+function! CursorToMain()
+	" E486 - Error code for searching a pattern that could not be found
+	try
+		execute '/main('
+		normal n
+		execute '/{'
+		normal jA
+	catch /^Vim\%((\a\+)\)\=:E486/
+		" Do nothing, just suppressing the error
+	endtry
+endfunction
+
+aug CursorToMain
+	au!
+	au BufReadPost *.c,*.cpp,*.java call CursorToMain()
+aug end
