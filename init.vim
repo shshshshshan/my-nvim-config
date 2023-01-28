@@ -299,10 +299,4 @@ function! CursorToMain()
 	endtry
 endfunction
 
-" Welcome Message
-function! CodingWelcomeMessage()
-	echo "You are now coding in " . toupper(expand("%:t:e")) . " programming language!"
-endfunction
-
 au BufEnter *.c,*.cpp,*.java call CursorToMain()
-au BufEnter *.c,*.cpp,*.java,*.py,*.cs,*.html,*.css,*.js call CodingWelcomeMessage()
