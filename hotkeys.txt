@@ -33,7 +33,7 @@
 " Alt-k  - Move cursor to bottom window
 " Alt-l  - Move cursor to right window
 " Alt-q  - Quit a window without save :quit
-" Alt-w  - Write changes to a file:w
+" Alt-w  - Write changes to a file :w
 " Alt-x  - Close all other windows except current
 " Alt-`  - Cycles through all windows clockwise
 
@@ -44,6 +44,7 @@
 " Alt-K - Move window to far top
 " Alt-L - Move window to far right
 " Alt-= - Make all window heights and widths equal
+" \'    - Force quit a window :q!
 
 " Tab Navigation
 
