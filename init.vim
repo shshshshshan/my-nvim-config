@@ -300,15 +300,24 @@ function! CursorToMainF()
 		normal n
 		execute '/{'
 		normal jA
+		return 0
 	catch /^Vim\%((\a\+)\)\=:E486/
-		echo "Main method not found"
 	endtry
+
+	try
+		execute '/__main__'
+		normal njA
+		return 0
+	catch /^Vim\%((\a\+)\)\=:E486/
+	endtry
+
+	echo ""
 endfunction
 
 function! WelcomeMessage()
-	if bufnr("%") == bufnr("$") && bufname("%") != '' && !&readonly
+	let file_extension = toupper(fnamemodify(bufname("%"), ':e'))
+	if file_extension != '' && !&readonly
 		let message = "You are now editing "
-		let file_extension = toupper(fnamemodify(bufname("%"), ':e'))
 		let first_letter = substitute(file_extension, '\(.\).*', '\1', '')
 		if first_letter =~ '^[aeiouAEIOU]'
 			echo message . "an " . file_extension . " file! "
@@ -321,6 +330,5 @@ endfunction
 
 aug EnteringAFile
 	au!
-	au BufEnter <buffer> if expand("%:t") != "init.vim" | call CursorToMainF() | endif
-	au BufEnter * call WelcomeMessage()
+	au BufEnter <buffer> if expand("%:t") != "init.vim" | call CursorToMainF() | endif | call WelcomeMessage()
 aug end
