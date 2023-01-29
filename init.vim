@@ -231,7 +231,7 @@ nnoremap <A-H> <C-w>H
 nnoremap <A-J> <C-w>J
 nnoremap <A-K> <C-w>K
 nnoremap <A-L> <C-w>L
-nnoremap <Leader>' <Cmd>q!<CR>
+nnoremap <Leader>/ <Cmd>q!<CR>
 
 " " Tab Navigation
 nmap <A-r> <Cmd>tabn<CR>

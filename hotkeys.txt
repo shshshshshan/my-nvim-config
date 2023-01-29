@@ -44,7 +44,7 @@
 " Alt-K - Move window to far top
 " Alt-L - Move window to far right
 " Alt-= - Make all window heights and widths equal
-" \'    - Force quit a window :q!
+" \/    - Force quit a window :q!
 
 " Tab Navigation
 
