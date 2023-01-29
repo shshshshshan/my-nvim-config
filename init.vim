@@ -317,7 +317,7 @@ endfunction
 function! WelcomeMessage()
 	let file_extension = toupper(fnamemodify(bufname("%"), ':e'))
 	if file_extension != '' && !&readonly
-		let message = "You are now editing "
+		let message = "You are currently editing "
 		let first_letter = substitute(file_extension, '\(.\).*', '\1', '')
 		if first_letter =~ '^[aeiouAEIOU]'
 			echo message . "an " . file_extension . " file! "
@@ -327,8 +327,15 @@ function! WelcomeMessage()
 	endif
 endfunction
 
+function! CleanseMessageBox(timer)
+	echo ""
+endfunction
+
+let g:f = bufnr("$")
 
 aug EnteringAFile
 	au!
-	au BufEnter <buffer> if expand("%:t") != "init.vim" | call CursorToMainF() | endif | call WelcomeMessage()
+	au BufEnter * if expand("%:t") != "init.vim" | call CursorToMainF() | endif | 
+		\ if bufnr("$") >= g:f | let g:f += 1 | call WelcomeMessage() | endif |
+		\ let timer = timer_start(3000, 'CleanseMessageBox')
 aug end
