@@ -50,6 +50,8 @@ Plug 'lukas-reineke/indent-blankline.nvim' " Indention guides
 
 Plug 'https://github.com/sainnhe/everforest' " Colorscheme
 
+Plug 'junegunn/fzf', { 'do' : { -> fzf#install() } } " Fuzzy finder for NVIM
+
 call plug#end()
 
 " Plugin Calls End
@@ -84,7 +86,7 @@ set splitbelow
 
 set notimeout
 
-colorscheme afterglow
+colorscheme gruvbox
 
 " Custom Editor Preferences End
 
@@ -110,7 +112,7 @@ aug end
 set mps+=<:>
 
 " " Vim Airline
-let g:airline_theme='everforest'
+let g:airline_theme='gruvbox'
 let g:airline_powerline_fonts = 1
 
 if !exists('g:airline_symbols')
@@ -153,6 +155,8 @@ let g:tagbar_iconchars = ['', '']
 " " Indent-blankline
 let g:indent_blankline_show_trailing_blankline_indent = v:false
 
+" " Fuzzy Finder
+let g:fzf_layout = { 'window': { 'width': 0.69, 'height': 0.69, 'relative': v:true, 'xoffset': 1.0, 'yoffset': 1.0 } }
 
 " Advanced Custom Editor Preferences End
 
@@ -246,10 +250,11 @@ nmap <Leader>- <Cmd>bd!<CR>
 nmap <F7> <Cmd>windo diffthis<CR>
 nmap <F7> <Cmd>diffoff<CR>
 
-" " Help hotkeys
+" " Help Hotkeys
 nnoremap <Leader>h <Cmd>vert sview ~/.config/nvim/hotkeys.txt<CR>
 
-
+" " Fuzzy Finder
+nnoremap <Leader>f <Cmd>FZF ~<CR>
 
 " Custom Key Bind End
 
@@ -289,7 +294,7 @@ au BufNewFile *.py 0r ~/.programmingTemplates/Python/standardPythonTemplate.py |
 " " Entering a programming file
 
 " E486 - Error code for searching a pattern that could not be found
-function! CursorToMain()
+function! CursorToMainF()
 	try
 		execute '/main('
 		normal n
@@ -300,4 +305,22 @@ function! CursorToMain()
 	endtry
 endfunction
 
-au BufEnter *.c,*.cpp,*.java call CursorToMain()
+function! WelcomeMessage()
+	if bufnr("%") == bufnr("$") && bufname("%") != '' && !&readonly
+		let message = "You are now editing "
+		let file_extension = toupper(fnamemodify(bufname("%"), ':e'))
+		let first_letter = substitute(file_extension, '\(.\).*', '\1', '')
+		if first_letter =~ '^[aeiouAEIOU]'
+			echo message . "an " . file_extension . " file! "
+		else
+			echo message . "a " . file_extension . " file! "
+		endif
+	endif
+endfunction
+
+
+aug EnteringAFile
+	au!
+	au BufEnter <buffer> if expand("%:t") != "init.vim" | call CursorToMainF() | endif
+	au BufEnter * call WelcomeMessage()
+aug end
