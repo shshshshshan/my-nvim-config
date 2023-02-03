@@ -52,6 +52,16 @@ Plug 'https://github.com/sainnhe/everforest' " Colorscheme
 
 Plug 'junegunn/fzf', { 'do' : { -> fzf#install() } } " Fuzzy finder for NVIM
 
+Plug 'junegunn/limelight.vim' " For focus
+
+Plug 'junegunn/goyo.vim' " Distraction-free
+
+Plug 'terryma/vim-expand-region' " Selection expansion
+
+Plug 'mbbill/undotree' " Undo history
+
+Plug 'michaeljsmith/vim-indent-object' " New text objects
+
 call plug#end()
 
 " Plugin Calls End
@@ -158,6 +168,82 @@ let g:indent_blankline_show_trailing_blankline_indent = v:false
 " " Fuzzy Finder
 let g:fzf_layout = { 'window': { 'width': 0.69, 'height': 0.69, 'relative': v:true, 'xoffset': 1.0, 'yoffset': 1.0 } }
 
+" " Limelight
+let g:limelight_default_coefficient = 0.9
+
+" " Goyo
+function! s:disable_distractive_plugs()
+	nunmap <F3>
+	nunmap <F4>
+	nunmap <F12>
+	nunmap <Leader>h
+	nunmap <Leader>f
+	nnoremap <Leader>l <Cmd>Limelight!!<CR>
+endfunction
+
+function! s:enable_distractive_plugs()
+	nnoremap <F3> <Cmd>TagbarToggle<CR><Cmd>TagbarTogglePause<CR>
+	nnoremap <F4> <Cmd>NERDTreeToggle<CR>
+	nnoremap <F12> <Cmd>vsplit term://bash<CR>
+	nnoremap <Leader>h <Cmd>vert sview ~/.config/nvim/hotkeys.txt<CR>
+	nnoremap <Leader>f <Cmd>FZF ~<CR>
+	nunmap <Leader>l
+endfunction
+
+au! User GoyoEnter call <SID>disable_distractive_plugs() | Limelight
+au! User GoyoLeave call <SID>enable_distractive_plugs() | Limelight!
+let g:goyo_width = 104
+
+" " Undotree
+if !exists('g:undotree_WindowLayout')
+	let g:undotree_WindowLayout = 3
+endif
+
+if !exists('g:undotree_SetFocusWhenToggle')
+	let g:undotree_SetFocusWhenToggle = 1
+endif
+
+if !exists('g:undotree_TreeNodeShape')
+	let g:undotree_TreeNodeShape = ''
+endif
+
+if !exists('g:undotree_TreeSplitShape')
+	let g:undotree_TreeSplitShape = ''
+endif
+
+if !exists('g:undotree_TreeVertShape')
+	let g:undotree_TreeVertShape = '⏽'
+endif
+
+if !exists('g:undotree_TreeReturnShape')
+	let g:undotree_TreeReturnShape = ''
+endif
+
+if has("persistent_undo")
+   let target_path = expand('~/.undodir')
+
+    " create the directory and any parent directories
+    " if the location does not exist.
+    if !isdirectory(target_path)
+        call mkdir(target_path, "p", 0700)
+    endif
+
+    let &undodir=target_path
+    set undofile
+endif
+
+let g:undotree_CustomUndotreeCmd = 'vertical 32 new'
+let g:undotree_CustomDiffpanelCmd = 'belowright 12 new'
+
+" " Expand Region
+call expand_region#custom_text_objects({
+	\ 'a]' :1,
+	\ 'ab' :1,
+	\ 'aB' :1,
+	\ 'ii' :0,
+	\ 'ai' :0,
+	\ })
+
 " Advanced Custom Editor Preferences End
 
 
@@ -248,13 +334,22 @@ nmap <Leader>- <Cmd>bd!<CR>
 
 " " Diff Mode
 nmap <F7> <Cmd>windo diffthis<CR>
-nmap <F7> <Cmd>diffoff<CR>
+nmap <F8> <Cmd>diffoff<CR>
 
 " " Help Hotkeys
 nnoremap <Leader>h <Cmd>vert sview ~/.config/nvim/hotkeys.txt<CR>
 
 " " Fuzzy Finder
 nnoremap <Leader>f <Cmd>FZF ~<CR>
+
+" " Exit Insert
+inoremap jk <C-\><C-n>
+
+" " Goyo Focus Mode
+nnoremap <Leader>g <Cmd>Goyo<CR>
+
+" " Undotree
+nnoremap <Leader>u <Cmd>UndotreeToggle<CR>
 
 " Custom Key Bind End
 
@@ -298,14 +393,14 @@ function! CursorToMainF()
 	try
 		execute '/main('
 		normal n
-		execute '/{'
 		normal jA
+		normal zz
 		return 0
 	catch /^Vim\%((\a\+)\)\=:E486/
 	endtry
 
 	try
-		execute '/__main__'
+		execute '/__name__'
 		normal njA
 		return 0
 	catch /^Vim\%((\a\+)\)\=:E486/
