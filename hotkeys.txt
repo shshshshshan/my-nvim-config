@@ -1,3 +1,4 @@
+-- When you see a back-slash '\', treat it as a space bar <Space>
 
 " Hotkey help
 " \h - Show this help file
@@ -17,8 +18,8 @@
 
 " Line Manipulation
 
-" \o - Shift line downwards and shift other lines upward
-" \p - Shift line upwards and shift other lines downward
+" \j - Shift line downwards and shift other lines upward
+" \k - Shift line upwards and shift other lines downward
 " \; - Copy line and paste it on the next line
 
 " Terminal Hotkeys
@@ -28,8 +29,8 @@
 
 " Fuzzy Finder
 " \f - Opens a fuzzy finder in an overlapping window
-" Ctrl-v - Opens the file in new split window
-" Enter - Opens the file in a new tab
+" Ctrl-v - Opens the file in new split window when file is selected
+" Enter - Opens the file in a new tab when file is selected
 
 " Tagbar Hotkeys
 
