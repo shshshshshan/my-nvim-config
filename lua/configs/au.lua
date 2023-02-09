@@ -63,6 +63,20 @@ vim.cmd([[
     au BufNewFile *.py 0r ~/.programmingTemplates/Python/standardPythonTemplate.py | %s/<$fnameHash$$?>/\=expand('%:t:r')/
 ]])
 
+------------------------------------------
+-- Assembly S File Programming Template --
+------------------------------------------
+vim.cmd([[
+    au BufNewFile *.s 0r ~/.programmingTemplates/Assembly/SFileTemplate.s | %s/<$fnameHash$$?>/\=expand('%:t:r')/
+]])
+
+------------------------------------------
+-- Assembly ASM File Programming Template --
+------------------------------------------
+vim.cmd([[
+    au BufNewFile *.asm 0r ~/.programmingTemplates/Assembly/ASMFileTemplate.asm | %s/<$fnameHash$$?>/\=expand('%:t:r')/
+]])
+
 ---------------------
 -- Welcome Message --
 ---------------------
@@ -84,6 +98,13 @@ vim.cmd([[
             try
                 execute '/__name__'
                 normal njA
+                return 0
+            catch /^Vim\%((\a\+)\)\=:E486/
+            endtry
+
+            try
+                execute '/_start'
+                normal nnjA
                 return 0
             catch /^Vim\%((\a\+)\)\=:E486/
             endtry
@@ -115,7 +136,8 @@ vim.cmd([[
         au!
         au VimEnter * if expand('%:t') != 'init.vim' | call CursorToMainFunction() | endif | 
             \ if bufnr('$') >= g:f | let g:f += 1 | call WelcomeMessage() | endif |
-            \ let timer = timer_start(3000, 'CleanseMessageBox')
+            \ let timer = timer_start(3000, 'CleanseMessageBox') 
+        au BufReadPost *.s set ft=asm
     aug end
 ]])
 

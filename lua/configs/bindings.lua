@@ -42,7 +42,7 @@ noremap("i", "<A-K>", "<C-\\><C-N><C-w>K") -- Moves the window to the farthest d
 noremap("i", "<A-L>", "<C-\\><C-N><C-w>L") -- Moves the window to the farthest right
 
 -- Another way to exit insert mode --
-noremap("i", "jk", "<C-\\><C-N>") -- Exit insert mode by typing jk
+noremap("i", "<A-n>", "<C-\\><C-N>") -- Exit insert mode by typing jk
 
 -----------------
 -- Normal Mode --
